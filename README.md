@@ -2,21 +2,6 @@
 
 Mobile application that tracks the user's daily good and bad habits. The application features a short, daily quiz that the user takes to provide the application with habit data. The application analyzes the data provided by the user and produces insightful information on the user's behavior.
 
-## The Project Team
-
-### Team Lead
-Chantalle Bril cbril@csu.fullerton.edu
-#### Team Members
-  1. Member one
-  2. Member two
-  3. Member three
-
-## Project Technologies
-
-This project will use:
-  * Technology 1 + resource url
-  * Technology 2 + resource url
-
 ## How to start helping
 *Please make sure you have git installed on your computer before you begin to help. To install git, please visit [Git](https://git-scm.com/downloads)*
 
