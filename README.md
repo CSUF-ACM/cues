@@ -9,30 +9,23 @@ Mobile application that tracks the user's daily good and bad habits. The applica
 https://nodejs.org/en/download/
 
 ### Install Expo
-Expo allows you to run the app on a simulator or mobile phone. Install npm with this command in your terminal:
-  *npm install -g expo-cli*
+Expo allows you to run the app on a simulator or mobile phone. Install npm with this command in your terminal:  `npm install -g expo-cli`
 
 ### Download and install git
 https://git-scm.com/downloads
 
 ### Clone the project
-In your terminal, navigate to the directory in which to save the project:
-  *cd ~/Desktop/apps*
+In your terminal, navigate to the directory in which to save the project: `cd ~/Desktop/apps`
 
-Clone this GitHub repository with this command in your terminal:
-  *git clone https://github.com/CSUF-ACM/cues.git*
+Clone this GitHub repository with this command in your terminal:  `git clone https://github.com/CSUF-ACM/cues.git`
 
 ### Build the app with Expo
-In your terminal, navigate to the new cues folder
-  *cd cues*
+In your terminal, navigate to the new cues folder:  `cd cues`
 
-Build the project:
-  *npm start*
+Build the project:  `npm start`
 
 ### Run the app on your smart phone or in a simulator
-Install the Expo Client app on your smart phone to run the app on your phone.
-If you have a Mac, you can use the built-in Simulator program. In the terminal running Expo, type 'i' for iOS.
-If you have Unix or Windows, you can use the emulator from Android Studio. In the terminal running Expo, type 'a' for Android.
+Install the Expo Client app on your smart phone to run the app on your phone. If you have a Mac, you can use the built-in Simulator program. In the terminal running Expo, type 'i' for iOS. If you have Unix or Windows, you can use the emulator from Android Studio. In the terminal running Expo, type 'a' for Android.
 
 ------------------------------
 
