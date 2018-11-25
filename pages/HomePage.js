@@ -7,10 +7,10 @@ import {
   View,
   TouchableOpacity,
   Image,
-  AppRegistry
+  Platform,
 } from 'react-native';
 import {LinearGradient} from 'expo';
-import NewHabitPage from './NewHabitPage.js';
+import NewHabitPage from '../NewHabitPage.js';
 
 
 export default class HomePage extends React.Component{
@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
   },
   headerText:{
     color:'#ffe4e1',
-    fontFamily:'sans-serif-thin',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-thin' : 'AvenirNext-UltraLight',
     fontSize:48,
   },
   bodyText:{
     color:'#ffe4e1',
-    fontFamily:'sans-serif-thin',
+    fontFamily: Platform.OS === 'android' ? 'sans-serif-thin' : 'AvenirNext-UltraLight',
     fontSize:20,
   },
   navBarButton:{
