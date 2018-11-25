@@ -5,7 +5,7 @@ Mobile application that tracks the user's daily good and bad habits. The applica
 
 ## Building the project
 
-### Download Node
+### Download and install Node
 https://nodejs.org/en/download/
 
 ### Install Expo
@@ -30,13 +30,10 @@ Install the Expo Client app on your smart phone to run the app on your phone. If
 ------------------------------
 
 ## Contributing with GitHub
-*Please make sure you have git installed on your computer before you begin to help. To install git, please visit [Git]()*
-
-To begin open your terminal (if using Linux/Mac) or git bash (if Windows), and navigate to the folder that you would like to save this project
+Remember that you must execute git commands from within the project directory. 
+*(Ex: `cd ~/Desktop/apps/cues`)*
 
 *If you need help navigating the terminal please refer to this link: [Linux Command Tutorial](https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners)*
-
-use `git clone https://github.com/CSUF-ACM/cues.git` to clone the repository into your folder
 
 To work on the project without disrupting the work of others or having your work disturbed, use `git branch <branchname>` to create a new branch, then use `git checkout <branchname>` to start working on your new branch
 
@@ -57,5 +54,3 @@ If the pull request is accepted, your branch will be merged with the master bran
 ### Additional help
 
 If you need some more help with git commands, please visit [Git Command Tutorial](https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html)
-
-If you have any questions or need more help, please contact the Project Lead, Chantalle Bril cbril@csu.fullerton.edu
