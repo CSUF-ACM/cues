@@ -2,8 +2,42 @@
 
 Mobile application that tracks the user's daily good and bad habits. The application features a short, daily quiz that the user takes to provide the application with habit data. The application analyzes the data provided by the user and produces insightful information on the user's behavior.
 
-## How to start helping
-*Please make sure you have git installed on your computer before you begin to help. To install git, please visit [Git](https://git-scm.com/downloads)*
+
+## Building the project
+
+### Download Node
+https://nodejs.org/en/download/
+
+### Install Expo
+Expo allows you to run the app on a simulator or mobile phone. Install npm with this command in your terminal:
+  *npm install -g expo-cli*
+
+### Download and install git
+https://git-scm.com/downloads
+
+### Clone the project
+In your terminal, navigate to the directory in which to save the project:
+  *cd ~/Desktop/apps*
+
+Clone this GitHub repository with this command in your terminal:
+  *git clone https://github.com/CSUF-ACM/cues.git*
+
+### Build the app with Expo
+In your terminal, navigate to the new cues folder
+  *cd cues*
+
+Build the project:
+  *npm start*
+
+### Run the app on your smart phone or in a simulator
+Install the Expo Client app on your smart phone to run the app on your phone.
+If you have a Mac, you can use the built-in Simulator program. In the terminal running Expo, type 'i' for iOS.
+If you have Unix or Windows, you can use the emulator from Android Studio. In the terminal running Expo, type 'a' for Android.
+
+------------------------------
+
+## Contributing with GitHub
+*Please make sure you have git installed on your computer before you begin to help. To install git, please visit [Git]()*
 
 To begin open your terminal (if using Linux/Mac) or git bash (if Windows), and navigate to the folder that you would like to save this project
 
