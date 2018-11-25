@@ -1,5 +1,3 @@
-// Chantalle Bril 11/24/2018
-
 import React, {Component} from 'react';
 import {
   StyleSheet,
@@ -10,12 +8,9 @@ import {
   Platform,
 } from 'react-native';
 import {LinearGradient} from 'expo';
-import NewHabitPage from '../NewHabitPage.js';
-
 
 export default class HomePage extends React.Component{
   render(){
-
     return (
       <View style={styles.containerView}>
       <LinearGradient colors={['#081b2a','#263b4d']} style={{flex:1}}>
@@ -26,7 +21,10 @@ export default class HomePage extends React.Component{
         </View>
 
         <View style={styles.bodyView}>
-          <TouchableOpacity style={{borderWidth:10, borderRadius:20, borderColor:'#081b2a', backgroundColor:'#081b2a'}}>
+          <TouchableOpacity 
+            style={{borderWidth:10, borderRadius:20, borderColor:'#081b2a', backgroundColor:'#081b2a'}}
+            onPress={()=>this.props.navigation.navigate('HabitQuiz')}
+          >
             <Text style={styles.bodyText}>HABIT QUIZ</Text>
           </TouchableOpacity>
         </View>
@@ -34,15 +32,24 @@ export default class HomePage extends React.Component{
 
         <View style={styles.navBarView}>
 
-          <TouchableOpacity style={styles.navBarButton}>
+          <TouchableOpacity 
+            style={styles.navBarButton}
+            onPress={()=>this.props.navigation.navigate('NewHabit')}
+          >
             <Text style={styles.bodyText}>HABITS</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.navBarButton}>
+          <TouchableOpacity 
+            style={styles.navBarButton}
+            onPress={()=>this.props.navigation.navigate('Home')}
+          >
             <Text style={styles.bodyText}>HOME</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.navBarButton}>
+          <TouchableOpacity 
+            style={styles.navBarButton}
+            onPress={()=>alert("Coming soon")}
+          >
             <Text style={styles.bodyText}>SETTINGS</Text>
           </TouchableOpacity>
 
