@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {createStackNavigator,createAppContainer } from "react-navigation";
-import HomePage from './pages/HomePage.js';
-import HabitQuiz from './HabitQuiz.js';
-import NewHabitPage from './NewHabitPage.js';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { createStackNavigator, createAppContainer } from "react-navigation";
+import HomePage from "./src/scenes/HomePage.js";
+import HabitQuiz from "./src/scenes/HabitQuiz.js";
+import NewHabitPage from "./src/scenes/NewHabitPage.js";
 
 const AppNavigator = createStackNavigator(
   {
