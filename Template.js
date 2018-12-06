@@ -1,25 +1,28 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet} from 'react-native';
+//import React, {Component} from 'react';
+import { Platform, StyleSheet } from "react-native";
+
+const chardonnay = "#F8C471";
+const mayaBlue = "#74b9ff";
 
 export const template = StyleSheet.create({
-  mainBackground : {
-    backgroundColor: '#F8C471'
+  mainBackground: {
+    backgroundColor: chardonnay
   },
 
-  mainTextFont : {
-      fontFamily : Platform.OS === 'ios' ? 'San Franciso' : 'Roboto',
-      fontSize: 15
+  mainTextFont: {
+    fontFamily: Platform.OS === "ios" ? "San Franciso" : "Roboto",
+    fontSize: 15
   },
 
-  header : {
-    fontSize : 23,
-    fontWeight: 'bold',
-    textAlign : 'center',
+  header: {
+    fontSize: 23,
+    fontWeight: "bold",
+    textAlign: "center"
   },
 
-  button : {
-    backgroundColor: '#74b9ff',
-    fontWeight: 'bold',
+  button: {
+    backgroundColor: mayaBlue,
+    fontWeight: "bold",
     fontSize: 20
   }
 });
