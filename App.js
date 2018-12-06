@@ -6,22 +6,22 @@ import HabitQuiz from "./src/scenes/HabitQuiz.js";
 import NewHabitPage from "./src/scenes/NewHabitPage.js";
 
 const AppNavigator = createStackNavigator(
-  {
-    Home: HomePage,
-    NewHabit: NewHabitPage,
-    HabitQuiz: HabitQuiz
-  },
-  {
-    initialRouteName: "Home"
-  }
+	{
+		HomePage,
+		NewHabitPage,
+		HabitQuiz
+	},
+	{
+		initialRouteName: "HomePage"
+	}
 );
 
 const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
-  render() {
-    return <AppContainer />;
-  }
+	render() {
+		return <AppContainer />;
+	}
 }
 
 // export default class App extends React.Component {
