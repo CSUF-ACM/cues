@@ -1,17 +1,49 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, TouchableOpacity, Switch} from 'react-native';
+import {
+	Platform,
+	StyleSheet,
+	Text,
+	View,
+	TextInput,
+	TouchableOpacity,
+	Switch,
+	AsyncStorage
+} from 'react-native';
 
 
 type Props = {};
 export default class NewHabitPage extends Component<Props> {
 
+	constructor(props){
+		super(props)
+		this.state={
+			title:'',
+			good:true,
+			description:''
+		}
+	}
 
-state = {switchValue: false};
-
-_handleToggleSwitch = () => this.setState(state => ({
-  switchValue: !state.switchValue
-  }));
+toggleSwitch = () => this.setState(state =>
+	({good: !state.good})
+);
+	
+saveHabit =()=>{
+	const {title, good, description} = this.state;
+	let habit = {
+		title: title,
+		good: good,
+		description: description
+	}
+	AsyncStorage.setItem(title, JSON.stringify(habit));
+	
+	message = "Your ";
+	good ? message = message + "good" : message = message + "bad";
+	message = message + " habit: \"" + this.state.title + "\" was saved.";
+	alert(message);
+	
+	this.props.navigation.goBack();
+}
 
   render() {
     return (
@@ -21,15 +53,16 @@ _handleToggleSwitch = () => this.setState(state => ({
             <TextInput
              placeholder='Enter title'
              style={styles.titleInput}
+             onChangeText={title => this.setState({title})}
              />
 
         <View style={styles.switchWrapper}>
-          <Text style={{color: '#3498DB'}}> Good </Text>
-          <Switch
-            onValueChange={this._handleToggleSwitch}
-            value={this.state.switchValue}
-          />
           <Text style={{color: '#CB4335'}}> Bad </Text>
+          <Switch
+          	value={this.state.good}
+            onValueChange={this.toggleSwitch}
+          />
+          <Text style={{color: '#3498DB'}}> Good </Text>
         </View>
 
         <Text style={styles.descriptionText}>Habit Description</Text>
@@ -37,9 +70,13 @@ _handleToggleSwitch = () => this.setState(state => ({
              placeholder='Enter description'
              multiline
              style={styles.descriptionInput}
+             onChangeText={description => this.setState({description})}
              />
 
-        <TouchableOpacity style={styles.saveButton}>
+        <TouchableOpacity
+        	style={styles.saveButton}
+        	onPress={this.saveHabit}
+		>
           <Text style={styles.saveText}>SAVE</Text>
         </TouchableOpacity>
 

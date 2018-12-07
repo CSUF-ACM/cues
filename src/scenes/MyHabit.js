@@ -52,7 +52,7 @@ export default class MyHabit extends React.Component {
 					</TextInput>
 				</View>
 
-				<TouchableOpacity onPress = {this.addHabit.bind(this)} style = {styles.addButton}>
+				<TouchableOpacity onPress = {() => this.props.navigation.navigate("NewHabitPage")} style = {styles.addButton}>
 					<Text style = {styles.addButtonText}>+</Text>
 				</TouchableOpacity>
 			</View>
