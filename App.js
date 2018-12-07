@@ -4,12 +4,14 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import HomePage from "./src/scenes/HomePage.js";
 import HabitQuiz from "./src/scenes/HabitQuiz.js";
 import NewHabitPage from "./src/scenes/NewHabitPage.js";
+import MyHabit from "./src/scenes/MyHabit.js";
 
 const AppNavigator = createStackNavigator(
 	{
 		HomePage,
 		NewHabitPage,
-		HabitQuiz
+		HabitQuiz,
+		MyHabit
 	},
 	{
 		initialRouteName: "HomePage"
