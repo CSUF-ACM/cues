@@ -4,7 +4,7 @@ import { StyleSheet,
 	View, 
 	TextInput, 
 	ScrollView,
-  FlatList, 
+	FlatList,
 	TouchableOpacity, 
 } from 'react-native';
 
@@ -21,68 +21,59 @@ export default class MyHabit extends React.Component {
 		}
 	}
 
-  	render() {
+	render() {
+	//Mapping habits from habitArray
+		let habits = this.state.habitArray.map((val, key) => {
+			return <Habit key = {key} keyval = {key} val = {val}
+			editMethod = { () => this.editNode(key)} />
+	});
 
-  	//Mapping habits from habitArray
-  	let habits = this.state.habitArray.map((val, key) => {
-  		return <Habit key = {key} keyval = {key} val = {val}
-  				editMethod = { () => this.editNode(key)} />
-  	});
+		return (
+			<View style = {styles.container}>
+				<View style = {styles.header}>
+					<TouchableOpacity style = {styles.backButton}>
+						<Text style = {styles.backButtonText}>Back</Text>
+					</TouchableOpacity>
+					<Text style = {styles.headerText}>My Habits</Text>
+				</View>
 
-    return (
-      <View style = {styles.container}>
-      	<View style = {styles.header}>
+				<ScrollView style = {styles.scrollContainer}>
+					{habits}
+				</ScrollView>
 
-          <TouchableOpacity style = {styles.backButton}>
-            <Text style = {styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-      		
-          <Text style = {styles.headerText}>My Habits</Text>
+				<View style = {styles.footer}>
+					<TextInput
+						style = {styles.textInput}
+						onChangeText = {(habitText) => this.setState({habitText})}
+						value = {this.state.habitText}
+						placeholder = '>habit'
+						placeholderTextColor = 'white'
+						underlineColorAndroid = 'transparent'>
+					</TextInput>
+				</View>
 
-      	</View>
+				<TouchableOpacity onPress = {this.addHabit.bind(this)} style = {styles.addButton}>
+					<Text style = {styles.addButtonText}>+</Text>
+				</TouchableOpacity>
+			</View>
+		);
+	}
 
-      	//All the habits will be inside ScorllView.
-      	<ScrollView style = {styles.scrollContainer}>
-      		{habits}
-      	</ScrollView>
-        
-        //For temporary purpose only
-        <View style = {styles.footer}>
-        	<TextInput 
-        		style = {styles.textInput} 
-        		//It will run everytime we change text in the input field.
-        		onChangeText = {(habitText) => this.setState({habitText})}
-        		value = {this.state.habitText}
-        		placeholder = '>habit' 
-        		placeholderTextColor = 'white' 
-        		underlineColorAndroid = 'transparent'>
-        	</TextInput>
-        </View>
-
-        //Creating a Button.
-        <TouchableOpacity onPress = {this.addHabit.bind(this)} style = {styles.addButton}>
-        	<Text style = {styles.addButtonText}>+</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  	}
-
-  	addHabit(){
+	addHabit(){
 		if(this.state.habitText){
-
 		//	var d = new Date();
 			this.state.habitArray.push({
 		//	'date': d.getFullYear() +
 		//	"/" + (d.getMonth() + 1) +
 		//	"/" + d.getDate(),
-			'habit': this.state.habitText
+				'habit': this.state.habitText
 			});
 			this.setState({habitArray: this.state.habitArray})
 			this.setState({habitText: ''})
 		}
 	}
 
-  //Currently this editNode acts as a deleteNode.
+	//Currently this editNode acts as a deleteNode.
 	editNode(key){
 		this.state.habitArray.splice(key, 1);
 		this.setState({habitArray: this.state.habitArray})
