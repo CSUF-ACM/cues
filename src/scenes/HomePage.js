@@ -35,7 +35,7 @@ export default class HomePage extends React.Component {
 				<View style={styles.navBarView}>
 					<TouchableOpacity
 						style={template.button}
-						onPress={() => this.props.navigation.navigate("NewHabit")}
+						onPress={() => this.props.navigation.navigate("MyHabit")}
 					>
 						<Text style={[template.buttonText,template.textFont]}>HABITS</Text>
 					</TouchableOpacity>
