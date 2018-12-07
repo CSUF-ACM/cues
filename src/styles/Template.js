@@ -4,25 +4,36 @@ import { Platform, StyleSheet } from "react-native";
 const chardonnay = "#F8C471";
 const mayaBlue = "#74b9ff";
 
-export const template = StyleSheet.create({
+export default template = StyleSheet.create({
   mainBackground: {
-    backgroundColor: chardonnay
+    backgroundColor: chardonnay,
+    flex: 1
   },
 
-  mainTextFont: {
+  textFont: {
     fontFamily: Platform.OS === "ios" ? "San Franciso" : "Roboto",
-    fontSize: 15
+    //fontSize: 15
   },
 
-  header: {
+  headerText: {
     fontSize: 23,
     fontWeight: "bold",
     textAlign: "center"
   },
 
   button: {
+    borderWidth: 10,
+    borderRadius: 20,
+    borderColor: mayaBlue,
     backgroundColor: mayaBlue,
+    padding: 5,
+//    fontWeight: "bold",
+//    fontSize: 20
+//    Text styles cannot be applied to TouchableOpacity components
+  },
+  
+  buttonText: {
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: 20,
   }
 });
