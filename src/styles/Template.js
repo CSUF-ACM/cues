@@ -11,7 +11,7 @@ export default template = StyleSheet.create({
   },
 
   textFont: {
-    fontFamily: Platform.OS === "ios" ? "San Franciso" : "Roboto",
+    fontFamily: Platform.OS === "ios" ? "Heiti SC" : "Roboto",
     //fontSize: 15
   },
 
