@@ -21,7 +21,7 @@ Clone this GitHub repository with this command in your terminal:  `git clone htt
 
 ### Build the app with Expo
 In your terminal, navigate to the new cues folder:  `cd cues`
-
+Install package dependencies: `npm install`
 Build the project:  `npm start`
 
 ### Run the app on your smart phone or in a simulator
