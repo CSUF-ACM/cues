@@ -26,7 +26,7 @@ export class Habit {
     // An entry for this habit given during the quiz
     const Entry = (did) => {
    	    return {
-            date: Date();
+            date: Date(),
             did: did
         };
     }
