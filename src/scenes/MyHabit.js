@@ -5,10 +5,12 @@ import { StyleSheet,
 	TextInput, 
 	ScrollView,
 	FlatList,
-	TouchableOpacity, 
+	TouchableOpacity,
 } from 'react-native';
-
+import Datastore from 'react-native-local-mongodb';
 import Habit from './Habit';
+
+var db = new Datastore({filename: 'habits', autoload: true});
 
 export default class MyHabit extends React.Component {
 	
@@ -19,6 +21,32 @@ export default class MyHabit extends React.Component {
 			habitArray: [],
 			habitText: '',
 		}
+	}
+
+	componentDidMount(){
+		this.fetchHabits();
+	}
+
+	fetchHabits(){
+		// Fetches the habits from the mongodb datastore and stores in
+		// state.habitArray
+		db.loadDatabase(function(err){
+			if (err){
+				alert(`Error loading the database:\n${err}`);
+				return;
+			}
+
+			db.find({}, function(err, docs){
+				if (err){
+					alert(`Error fetching habits from the database:\n${err}`);
+					return;
+				}
+
+				this.setState({habitArray: docs});
+				//alert(`We found ${docs.length} habits in the datastore`);
+
+			}.bind(this));			
+		}.bind(this))
 	}
 
 	render() {
@@ -38,7 +66,12 @@ export default class MyHabit extends React.Component {
 				</View>
 
 				<ScrollView style = {styles.scrollContainer}>
-					{habits}
+					<Text>We found {this.state.habitArray.length} habits in the database</Text>
+					<FlatList
+						data={this.state.habitArray}
+						renderItem={({item}) => <Text>{item.title}</Text>}
+						keyExtractor={(item, index) => item.id}
+					/>
 				</ScrollView>
 
 				<View style = {styles.footer}>
@@ -52,7 +85,7 @@ export default class MyHabit extends React.Component {
 					</TextInput>
 				</View>
 
-				<TouchableOpacity onPress = {() => this.props.navigation.navigate("NewHabitPage")} style = {styles.addButton}>
+				<TouchableOpacity onPress = {() => this.props.navigation.navigate("NewHabitPage", {onGoBack: this.fetchHabits.bind(this)})} style = {styles.addButton}>
 					<Text style = {styles.addButtonText}>+</Text>
 				</TouchableOpacity>
 			</View>

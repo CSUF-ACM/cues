@@ -1,5 +1,5 @@
-
 import React, {Component} from 'react';
+import Datastore from 'react-native-local-mongodb';
 import {
 	Platform,
 	StyleSheet,
@@ -10,7 +10,9 @@ import {
 	Switch,
 	AsyncStorage
 } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
+var db = new Datastore({filename:'habits', autoload: true});
 
 type Props = {};
 export default class NewHabitPage extends Component<Props> {
@@ -20,7 +22,9 @@ export default class NewHabitPage extends Component<Props> {
 		this.state={
 			title:'',
 			good:true,
-			description:''
+			description:'',
+			reminderTime: new Date(),
+			pickerIsVisible: false,
 		}
 	}
 
@@ -29,21 +33,39 @@ toggleSwitch = () => this.setState(state =>
 );
 	
 saveHabit =()=>{
-	const {title, good, description} = this.state;
-	let habit = {
+	var {title, good, description, reminderTime} = this.state;
+	reminderTime = reminderTime.valueOf();
+
+	var doc = {
 		title: title,
 		good: good,
-		description: description
-	}
-	AsyncStorage.setItem(title, JSON.stringify(habit));
-	
-	message = "Your ";
-	good ? message = message + "good" : message = message + "bad";
-	message = message + " habit: \"" + this.state.title + "\" was saved.";
-	alert(message);
-	
-	this.props.navigation.goBack();
+		description: description,
+		reminderTime: reminderTime,
+	};
+
+	db.insert(doc, function(err, newDoc){
+		if(err){
+			alert(`Failed to insert new habit into the datasore:\n${err}`);
+			return;
+		}
+		//alert(`New document added to the database:\n${JSON.stringify(newDoc)}`);
+		this.props.navigation.state.params.onGoBack();
+		this.props.navigation.goBack();
+	}.bind(this));
 }
+
+	_hidePicker(){
+		this.setState({pickerIsVisible: false});
+	}
+
+	_showPicker(){
+		this.setState({pickerIsVisible: true});
+	}
+
+	_handleDatePicked(date){
+		this.setState({reminderTime: date});
+		this._hidePicker();
+	}
 
   render() {
     return (
@@ -72,6 +94,18 @@ saveHabit =()=>{
              style={styles.descriptionInput}
              onChangeText={description => this.setState({description})}
              />
+
+        <Text style={styles.titleText}>Set a reminder for this habit?</Text>
+        <TouchableOpacity onPress={this._showPicker.bind(this)}>
+        	<Text style={[styles.titleText, {alignSelf: 'center',}]}>{this.state.reminderTime.getHours()}:{this.state.reminderTime.getMinutes()}</Text>
+        </TouchableOpacity>
+
+        <DateTimePicker
+        	isVisible={this.state.pickerIsVisible}
+        	onConfirm={this._handleDatePicked.bind(this)}
+        	onCancel={this._hidePicker.bind(this)}
+        	mode="time"
+        />
 
         <TouchableOpacity
         	style={styles.saveButton}
