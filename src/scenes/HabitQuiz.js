@@ -3,168 +3,153 @@ import { StyleSheet,
 	Text, 
 	View, 
 	TextInput, 
-	TouchableOpacity, 
+	TouchableOpacity,
+    SafeAreaView,
 } from 'react-native';
-
-//import Habit from './Habit';
+import Datastore from 'react-native-local-mongodb';
+var habitDb = new Datastore({filename: 'habits', autoload: true});
+var habitLogDb = new Datastore({filename: 'logs', autoload: true});
+var willpowerDb = new Datastore({filename: 'willpower', autoload: true});
+import template from '../styles/Template';
 
 export default class HabitQuiz extends React.Component {
-  render() {
-    return (
+    constructor(props){
+        super(props);
+        this.state = {
+            allHabits: [],
+            habitIndex: 0,
+            currentHabit: {},
+            quizOver: false,
+            score: 0,
+            willpower: 0,
+        };
+    }
 
-      <View style = {styles.container}>
-        <View style = {styles.header}>
+    componentDidMount(){
+        habitDb.loadDatabase(function(err){
+            habitDb.find({}, function(err, docs){
+                this.setState({
+                    allHabits: docs,
+                    currentHabit: docs[0],
+                });
+            }.bind(this));
+        }.bind(this));
+    }
 
-            //Back Button
-            <TouchableOpacity style = {styles.backButton}>
-                <Text style = {styles.backButtonText}>Back</Text>
-            </TouchableOpacity>
+    render() {
 
-            ///Page Title
-            <Text style = {styles.headerText}>Habit Quiz</Text>
+        var quizView = (
+            <SafeAreaView style={{flex: 1}}>
+            <View style={template.mainBackground}>
+                <Text style={template.h2Text}>
+                    Did you {this.state.currentHabit.title} today?
+                </Text>
+
+                <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity onPress={()=>this.answer(true)} style={template.button}>
+                        <Text style={template.buttonText}>Yes</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={()=>this.answer(false)} style={template.button}>
+                        <Text style={template.buttonText}>No</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            </SafeAreaView>
+        );
+
+        var resultsView = (
+            <SafeAreaView style={{flex: 1}}>
+            <View style={template.mainBackground}>
+                <Text style={template.h2Text}>Your willpower score for today</Text>
+                <Text style={template.h1Text}>{this.state.willpower}!</Text>
+                <Text style={template.h2Text}>{this.feedback(this.state.willpower)}</Text>
+                <TouchableOpacity onPress={()=>this.props.navigation.goBack()} style={template.button}>
+                    <Text style={template.buttonText}>OK</Text>
+                </TouchableOpacity>
+            </View>
+            </SafeAreaView>
+        );
         
-        </View>
+        return(this.state.quizOver ? resultsView : quizView);
+    }
 
-        //Habit Title block
-        <View style = {styles.habitTitle}>
-            <TextInput 
-            style = {styles.textInputTitle} 
-            //It will run everytime we change text in the input field.
-            //onChangeText = {(habitText) => this.setState({habitText})}
-            //value = {this.state.habitText}
-            placeholder = 'Habit Title' 
-            placeholderTextColor = 'white' 
-            underlineColorAndroid = 'transparent'>
-            </TextInput>
-        </View>
+    answer(did){
+        let good = this.state.currentHabit.good;
+        let win;
+        if (good && did || !good && !did){
+            win = true;
+            this.setState({
+                score: this.state.score +1
+            });
+        } else{
+            win = false;
+            this.setState({
+                score: this.state.score -1
+            });
+        }
 
-        //Habit Description block
-        <View style = {styles.habitDesc}>
-            <TextInput 
-            style = {styles.textInputDesc} 
-            //It will run everytime we change text in the input field.
-            //onChangeText = {(habitText) => this.setState({habitText})}
-            //value = {this.state.habitText}
-            placeholder = 'Habit Description' 
-            placeholderTextColor = 'white' 
-            underlineColorAndroid = 'transparent'>
-            </TextInput>
-        </View>
+        habitLogDb.insert({
+            habitId: this.state.currentHabit._id,
+            win: win,
+            date: new Date(),
+        });
 
-        //'Did it' button
-        <TouchableOpacity style = {styles.didIt}>
-            <Text style = {styles.didItText}>Did it</Text>
-        </TouchableOpacity>
+        let newIndex = this.state.habitIndex + 1;
+        this.setState({
+            habitIndex: newIndex,
+        }, function(){
+            if (this.state.habitIndex >= this.state.allHabits.length){
+              this.saveWillpower();
+            } else{
+                this.setState({
+                    currentHabit: this.state.allHabits[this.state.habitIndex]
+                });
+            }
+        });
+        
+    }
 
-        //'Didn't do it' button
-        <TouchableOpacity style = {styles.didntDoIt}>
-            <Text style = {styles.didntDoItText}>Didnt do it</Text>
-        </TouchableOpacity>
+    saveWillpower(){
+        let willpower = Math.round((this.state.score/this.state.allHabits.length)*100);
+        willpowerDb.insert({
+            score: willpower,
+            date: new Date(),
+        });
+        this.setState({
+            quizOver: true,
+            willpower: willpower,        
+        });
+    }
 
-      </View>
-    )
-  }
+    feedback(willpower){
+        switch(true){
+            case (willpower >= 80):
+                return 'You are the master of your universe';
+            case (willpower >= 60):
+                return 'Impressive feat of willpower!';
+            case (willpower >= 40):
+                return 'You\'re in control today';
+            case (willpower >= 20):
+                return 'Good work today!';
+            case (willpower >= -20):
+                return 'Stay on that grind fam';
+            case (willpower >= -40):
+                return 'Don\'t lose sight of the goal';
+            case (willpower >= -60):
+                return 'Let\'s see if you can do better tomorrow';
+            case (willpower >= -80):
+                return 'You done fucked up fam';
+            case (willpower >= -100):
+                return 'You have lost control to your inner demons';
+            default:
+                return '';
+        }
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    header: {
-        backgroundColor: '#E91E63',
-        alignItems: 'center',
-        justifyContent:'center',
-        borderBottomWidth: 10,
-        borderBottomColor: '#ddd'
-    },
-    headerText: {
-        color: 'white',
-        fontSize: 18,
-        padding: 40,
-        top: 20
-    },
-    backButton: {
-        position: 'absolute',
-        //zIndex: 11,
-        left: 20,
-        top: 55,
-        //padding: 35,
-        backgroundColor: '#ffffff',
-        width: 50,
-        height: 30,
-        //borderRadius: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 8
-    },
-    backButtonText: {
-        color: '#E91E63',
-        fontSize: 18
-    },
-    habitTitle: {
-        position: 'absolute',
-        top: 200,
-        left: 0,
-        right: 0,
-        zIndex: 10
-    },
-    textInputTitle: {
-        alignSelf: 'center',
-        color: '#fff',
-        padding: 20,
-        backgroundColor: '#252525',
-        borderTopWidth:2,
-        borderTopColor: '#ededed',
-        fontSize: 20
-    },
-    habitDesc: {
-        position: 'absolute',
-        bottom: 400,
-        left: 0,
-        right: 0,
-        zIndex: 10
-    },
-    textInputDesc: {
-        alignSelf: 'stretch',
-        color: '#fff',
-        padding: 40,
-        backgroundColor: '#252525',
-        borderTopWidth:2,
-        borderTopColor: '#ededed',
-        fontSize: 20
-    },
-    didIt: {
-        position: 'absolute',
-        zIndex: 11,
-        left: 20,
-        bottom: 200,
-        backgroundColor: '#E91E63',
-        width: 100,
-        height: 100,
-        //borderRadius: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 8
-    },
-    didItText: {
-        color: '#fff',
-        fontSize: 24
-    },
-    didntDoIt: {
-        position: 'absolute',
-        zIndex: 11,
-        right: 20,
-        bottom: 200,
-        backgroundColor: '#E91E63',
-        width: 100,
-        height: 100,
-        //borderRadius: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        elevation: 8
-    },
-    didntDoItText: {
-        color: '#fff',
-        fontSize: 24
     },
 });

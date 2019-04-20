@@ -5,6 +5,7 @@ import {
 	View,
 	TouchableOpacity,
 	Image,
+    SafeAreaView,
 } from "react-native";
 import { LinearGradient } from "expo";
 
@@ -13,9 +14,10 @@ import template from './../styles/Template.js';
 export default class HomePage extends React.Component {
 	render() {
 		return (
+            <SafeAreaView style={{flex: 1}}>
 			<View style={template.mainBackground}>
 				<View style={styles.headerView}>
-					<Text style={[template.textFont,template.headerText]}>CUES</Text>
+					<Text style={template.h1Text}>Cues</Text>
 					<Image
 						source={require("../../assets/ibis.png")}
 						style={{ width: 50, height: 82 }}
@@ -27,7 +29,7 @@ export default class HomePage extends React.Component {
 						style={template.button}
 						onPress={() => this.props.navigation.navigate("HabitQuiz")}
 					>
-						<Text style={[template.buttonText,template.textFont]}>HABIT QUIZ</Text>
+						<Text style={template.buttonText}>Take quiz</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -36,24 +38,25 @@ export default class HomePage extends React.Component {
 						style={template.button}
 						onPress={() => this.props.navigation.navigate("MyHabit")}
 					>
-						<Text style={[template.buttonText,template.textFont]}>HABITS</Text>
+						<Text style={template.buttonText}>Habits</Text>
 					</TouchableOpacity>
 
 					<TouchableOpacity
 						style={template.button}
 						onPress={() => this.props.navigation.navigate("Home")}
 					>
-						<Text style={[template.buttonText,template.textFont]}>HOME</Text>
+						<Text style={template.buttonText}>Home</Text>
 					</TouchableOpacity>
 
 					<TouchableOpacity
 						style={template.button}
 						onPress={() => alert("Coming soon")}
 					>
-						<Text style={[template.buttonText,template.textFont]}>SETTINGS</Text>
+						<Text style={template.buttonText}>Settings</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
+            </SafeAreaView>
 		);
 	}
 }

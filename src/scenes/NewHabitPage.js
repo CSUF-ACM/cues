@@ -34,13 +34,13 @@ toggleSwitch = () => this.setState(state =>
 	
 saveHabit =()=>{
 	var {title, good, description, reminderTime} = this.state;
-	reminderTime = reminderTime.valueOf();
 
 	var doc = {
-		title: title,
+		title: title.toLowerCase(),
 		good: good,
 		description: description,
 		reminderTime: reminderTime,
+        created: new Date(),
 	};
 
 	db.insert(doc, function(err, newDoc){
