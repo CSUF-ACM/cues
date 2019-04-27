@@ -51,5 +51,17 @@ export default template = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: lavender,
-  }
+  },
+  textInput: {
+    fontFamily: Platform.OS === "ios" ? "Heiti SC" : "Roboto",
+    fontSize: 16,
+    color: slateblue,
+    width: '60%',
+    padding: 10,
+    margin: '2%',
+    borderWidth: 2,
+    borderColor: slateblue,
+    borderRadius: 10,
+    backgroundColor: 'white',
+  },
 });

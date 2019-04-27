@@ -5,13 +5,15 @@ import HomePage from "./src/scenes/HomePage.js";
 import HabitQuiz from "./src/scenes/HabitQuiz.js";
 import NewHabitPage from "./src/scenes/NewHabitPage.js";
 import MyHabit from "./src/scenes/MyHabit.js";
+import HabitView from "./src/scenes/HabitView.js";
 
 const AppNavigator = createStackNavigator(
 	{
 		HomePage,
 		NewHabitPage,
 		HabitQuiz,
-		MyHabit
+		MyHabit,
+        HabitView,
 	},
 	{
 		initialRouteName: "HomePage"
