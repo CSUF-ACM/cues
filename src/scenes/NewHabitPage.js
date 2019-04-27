@@ -1,122 +1,138 @@
 import React, {Component} from 'react';
 import Datastore from 'react-native-local-mongodb';
 import {
-	Platform,
-	StyleSheet,
-	Text,
-	View,
-	TextInput,
-	TouchableOpacity,
-	Switch,
-	AsyncStorage
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    Switch,
+    AsyncStorage
 } from 'react-native';
-import DateTimePicker from 'react-native-modal-datetime-picker';
+import template from '../styles/Template';
 
 var db = new Datastore({filename:'habits', autoload: true});
 
 type Props = {};
 export default class NewHabitPage extends Component<Props> {
 
-	constructor(props){
-		super(props)
-		this.state={
-			title:'',
-			good:true,
-			description:'',
-			reminderTime: new Date(),
-			pickerIsVisible: false,
-		}
-	}
+    constructor(props){
+        super(props)
+        this.state={
+            title: '',
+            good: true,
+            description: '',
+            created: new Date(),
+            editing: false,
+            habitId: '',
+        }
+    }
 
-toggleSwitch = () => this.setState(state =>
-	({good: !state.good})
-);
-	
-saveHabit =()=>{
-	var {title, good, description, reminderTime} = this.state;
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: navigation.getParam('habitId', 'none') == 'none' ? 'New Habit' : 'Edit Habit'
+        }
+    };
 
-	var doc = {
-		title: title.toLowerCase(),
-		good: good,
-		description: description,
-		reminderTime: reminderTime,
-        created: new Date(),
-	};
+    componentDidMount(){
+        let id = this.props.navigation.getParam('habitId', 'none');
+        
+        if (id != 'none'){
+            this.setState({
+                editing: true,
+                habitId: id,
+            });
 
-	db.insert(doc, function(err, newDoc){
-		if(err){
-			alert(`Failed to insert new habit into the datasore:\n${err}`);
-			return;
-		}
-		//alert(`New document added to the database:\n${JSON.stringify(newDoc)}`);
-		this.props.navigation.state.params.onGoBack();
-		this.props.navigation.goBack();
-	}.bind(this));
-}
+            this.fetchHabit();
+            // db.findOne({_id: id}, function(err, doc){
+            //     this.setState({
+            //         title: doc.title,
+            //         good: doc.good,
+            //         description: doc.description,
+            //         created: doc.created,
+            //     });
+            // }.bind(this));
+        }
+    }
 
-	_hidePicker(){
-		this.setState({pickerIsVisible: false});
-	}
+    render() {
+        return (
+            <View style={template.mainBackground}>
+                <Text style={template.h2Text}>Habit title</Text>
+                    <TextInput
+                    value={this.state.title}
+                    style={template.textInput}
+                    onChangeText={title => this.setState({title})}
+                    />
 
-	_showPicker(){
-		this.setState({pickerIsVisible: true});
-	}
+                <View style={styles.switchWrapper}>
+                    <Text style={[template.bodyText, {color: 'red', fontWeight: 'bold'}]}> Bad </Text>
+                    <Switch
+                    value={this.state.good}
+                    onValueChange={() => this.setState({good: !this.state.good})}
+                    trackColor={{false: 'red', true: 'green'}}
+                    />
+                    <Text style={[template.bodyText, {color: 'green', fontWeight: 'bold'}]}> Good </Text>
+                </View>
 
-	_handleDatePicked(date){
-		this.setState({reminderTime: date});
-		this._hidePicker();
-	}
+                <Text style={template.h2Text}>Description</Text>
+                <TextInput
+                value={this.state.description}
+                multiline
+                style={template.textInput}
+                onChangeText={description => this.setState({description})}
+                />
 
-  render() {
-    return (
-      <View style={styles.mainWrapper}>
+                <TouchableOpacity
+                style={template.button}
+                onPress={this.saveHabit}
+                >
+                    <Text style={template.buttonText}>Save</Text>
+                </TouchableOpacity>
 
-        <Text style={styles.titleText}>Habit Title</Text>
-            <TextInput
-             placeholder='Enter title'
-             style={styles.titleInput}
-             onChangeText={title => this.setState({title})}
-             />
+            </View>
+        );
+    }
 
-        <View style={styles.switchWrapper}>
-          <Text style={{color: '#CB4335'}}> Bad </Text>
-          <Switch
-          	value={this.state.good}
-            onValueChange={this.toggleSwitch}
-          />
-          <Text style={{color: '#3498DB'}}> Good </Text>
-        </View>
+    saveHabit =()=>{
+        var {title, good, description} = this.state;
 
-        <Text style={styles.descriptionText}>Habit Description</Text>
-            <TextInput
-             placeholder='Enter description'
-             multiline
-             style={styles.descriptionInput}
-             onChangeText={description => this.setState({description})}
-             />
+        var doc = {
+            title: title.toLowerCase(),
+            good,
+            description,
+        };
 
-        <Text style={styles.titleText}>Set a reminder for this habit?</Text>
-        <TouchableOpacity onPress={this._showPicker.bind(this)}>
-        	<Text style={[styles.titleText, {alignSelf: 'center',}]}>{this.state.reminderTime.getHours()}:{this.state.reminderTime.getMinutes()}</Text>
-        </TouchableOpacity>
+        if (this.state.editing){
+            doc.created = this.state.created;
+            db.update({_id: this.state.habitId}, doc, function(err, numReplaced){
+                this.props.navigation.state.params.onGoBack();
+                this.props.navigation.goBack();
+            }.bind(this));
 
-        <DateTimePicker
-        	isVisible={this.state.pickerIsVisible}
-        	onConfirm={this._handleDatePicked.bind(this)}
-        	onCancel={this._hidePicker.bind(this)}
-        	mode="time"
-        />
+        } else{
+            doc.created = new Date();
+            db.insert(doc, function(err, newDoc){
+                this.props.navigation.state.params.onGoBack();
+                this.props.navigation.goBack();
+            }.bind(this));            
+        }
+    }
 
-        <TouchableOpacity
-        	style={styles.saveButton}
-        	onPress={this.saveHabit}
-		>
-          <Text style={styles.saveText}>SAVE</Text>
-        </TouchableOpacity>
-
-      </View>
-    );
-  }
+    fetchHabit(){
+        let id = this.props.navigation.getParam('habitId');
+        db.loadDatabase(function(err){
+            db.findOne({_id: id}).exec(function(err, doc){
+                this.setState({
+                    title: doc.title,
+                    good: doc.good,
+                    description: doc.description,
+                    created: doc.created,
+                });
+            }.bind(this));
+        }.bind(this));
+    }
 }
 
 const styles = StyleSheet.create({
@@ -137,22 +153,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 23
   },
-  titleInput: {
-    height: 40,
-    backgroundColor: 'white',
-    textAlign: 'center'
-  },
   descriptionText: {
     color: 'white',
     textAlign: 'center',
     margin: 10,
     fontWeight: 'bold',
     fontSize: 23
-  },
-  descriptionInput: {
-    height: 100,
-    backgroundColor: 'white',
-    paddingHorizontal: 10
   },
   saveText: {
     color: 'white',
