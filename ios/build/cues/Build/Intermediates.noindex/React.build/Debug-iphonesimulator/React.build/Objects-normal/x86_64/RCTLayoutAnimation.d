@@ -1,0 +1,18 @@
+dependencies: \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Modules/RCTLayoutAnimation.m \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Modules/RCTLayoutAnimation.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Views/RCTAnimationType.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Base/RCTConvert.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Views/RCTBorderStyle.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Views/RCTPointerEvents.h \
+  /Users/madison/Projects/cues/node_modules/react-native/React/Views/RCTTextDecorationLineType.h \
+  /Users/madison/Projects/cues/ios/build/cues/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/madison/Projects/cues/ios/build/cues/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/madison/Projects/cues/ios/build/cues/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/madison/Projects/cues/ios/build/cues/Build/Products/Debug-iphonesimulator/include/yoga/YGValue.h

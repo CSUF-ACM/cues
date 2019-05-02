@@ -1,0 +1,3 @@
+rootProject.name = 'cues'
+
+include ':app'

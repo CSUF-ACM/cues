@@ -7,7 +7,6 @@ import {
     Image,
     SafeAreaView,
 } from "react-native";
-import { LinearGradient } from "expo";
 
 import template from './../styles/Template.js';
 
